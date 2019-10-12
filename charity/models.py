@@ -32,6 +32,6 @@ class Donation(models.Model):
                                     message="Kod pocztowy musi być w formacie: '00-000'.")
     zip_code = models.CharField(validators=[zip_code_regex], max_length=6, blank=True)
     pick_up_date = models.DateField(auto_now_add=False)
-    pick_up_time = models.DateField(auto_now_add=False)
+    pick_up_time = models.TimeField(null=True)
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
