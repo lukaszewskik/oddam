@@ -10,6 +10,10 @@ class LandingPage(View):
     def get(self, request):
         ctx = {}
         donations = Donation.objects.all()
+        foundations = Institution.objects.filter(type=1)
+        organizations = Institution.objects.filter(type=2)
+        local = Institution.objects.filter(type=3)
+
         institutions_qt = Institution.objects.all().count()
         donated_qt = 0
         for donation in donations:
@@ -17,6 +21,14 @@ class LandingPage(View):
 
         ctx['donated_qt'] = donated_qt
         ctx['institutions_qt'] = institutions_qt
+        ctx['foundations'] = foundations
+        ctx['organizations'] = organizations
+        ctx['local'] = local
+        for f in foundations:
+            a = f.categories.all()
+            print(a)
+
+
         return render(request, "index.html", ctx)
 
 
