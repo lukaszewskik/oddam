@@ -24,9 +24,6 @@ class LandingPage(View):
         ctx['foundations'] = foundations
         ctx['organizations'] = organizations
         ctx['local'] = local
-        for f in foundations:
-            a = f.categories.all()
-            print(a)
 
 
         return render(request, "index.html", ctx)
