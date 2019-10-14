@@ -1,24 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
 
+{% block header_open %}
     <header class="header--main-page">
-        <nav class="container container--70">
-            <ul class="nav--actions">
-                <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-                <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-            </ul>
+{% endblock %}
 
-            <ul>
-                <li><a href="" class="btn btn--without-border active">Start</a></li>
-                <li><a href="#steps" class="btn btn--without-border">O co chodzi?</a></li>
-                <li><a href="#about-us" class="btn btn--without-border">O nas</a></li>
-                <li><a href="#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
-                <li><a href="{% url 'add_donation' %}#donate" class="btn btn--without-border">Przekaż dary</a></li>
-                <li><a href="#contact" class="btn btn--without-border">Kontakt</a></li>
-            </ul>
-        </nav>
-
+{% block header_close %}
         <div class="slogan container container--90">
             <div class="slogan--item">
                 <h1>
@@ -28,7 +15,9 @@
             </div>
         </div>
     </header>
+{% endblock %}
 
+{% block content %}
     <section id="stats" class="stats">
         <div class="container container--85">
             <div class="stats--item">
@@ -103,20 +92,20 @@
 
             <ul class="help--slides-items">
                 {% for foundation in foundations %}
-                <li>
-                    <div class="col">
-                        <div class="title">{{ foundation.name }}</div>
-                        <div class="subtitle">{{ foundation.description }}</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">
-                            {% for category in foundation.categories.all %}
-                                {{ category.name }},
-                            {% endfor %}
+                    <li>
+                        <div class="col">
+                            <div class="title">{{ foundation.name }}</div>
+                            <div class="subtitle">{{ foundation.description }}</div>
                         </div>
-                    </div>
-                </li>
+
+                        <div class="col">
+                            <div class="text">
+                                {% for category in foundation.categories.all %}
+                                    {{ category.name }},
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
                 {% endfor %}
             </ul>
             <!-- Pagination
@@ -138,20 +127,20 @@
             </p>
             <ul class="help--slides-items">
                 {% for organization in organizations %}
-                <li>
-                    <div class="col">
-                        <div class="title">{{ organization.name }}</div>
-                        <div class="subtitle">{{ organization.description }}</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">
-                            {% for category in organization.categories.all %}
-                                {{ category.name }},
-                            {% endfor %}
+                    <li>
+                        <div class="col">
+                            <div class="title">{{ organization.name }}</div>
+                            <div class="subtitle">{{ organization.description }}</div>
                         </div>
-                    </div>
-                </li>
+
+                        <div class="col">
+                            <div class="text">
+                                {% for category in organization.categories.all %}
+                                    {{ category.name }},
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
                 {% endfor %}
             </ul>
 
@@ -172,20 +161,20 @@
                 partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
             <ul class="help--slides-items">
                 {% for l in local %}
-                <li>
-                    <div class="col">
-                        <div class="title">{{ l.name }}</div>
-                        <div class="subtitle">{{ l.description }}</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">
-                            {% for category in l.categories.all %}
-                                {{ category.name }},
-                            {% endfor %}
+                    <li>
+                        <div class="col">
+                            <div class="title">{{ l.name }}</div>
+                            <div class="subtitle">{{ l.description }}</div>
                         </div>
-                    </div>
-                </li>
+
+                        <div class="col">
+                            <div class="text">
+                                {% for category in l.categories.all %}
+                                    {{ category.name }},
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
                 {% endfor %}
 
                 {#                <li>#}

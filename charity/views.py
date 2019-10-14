@@ -1,11 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views import View
 
-from charity.models import Donation, Institution
+from charity.models import Donation, Institution, Category
 
 
 class LandingPage(View):
@@ -27,16 +27,37 @@ class LandingPage(View):
         ctx['organizations'] = organizations
         ctx['local'] = local
 
-
         return render(request, "index.html", ctx)
 
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('landing_page')
 
 
 class AddDonation(View):
     def get(self, request):
-        if request.user.is_authenticated:
-            print('hej')
-        return render(request, "form.html")
+        ctx = {}
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx['categories'] = categories
+        ctx['institutions'] = institutions
+        return render(request, "form.html", ctx)
+
+    def post(self, request):
+        bags = request.POST['bags']
+        address = request.POST['address']
+        city = request.POST['city']
+        postcode = request.POST['postcode']
+        phone = request.POST['phone']
+        pick_up_date = request.POST['data']
+        time = request.POST['time']
+        comment = request.POST['more_info']
+        institution = request.POST['organization']
+        print(institution)
+        print('elo')
+        return redirect('add_donation')
 
 
 class Login(View):
@@ -47,14 +68,13 @@ class Login(View):
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(username=email, password=password)
-        user = authenticate(username='zefireq', password='zefireq4')
-        print(email, password)
-        print(user)
+
         if user is not None:
             login(request, user)
             return redirect("landing_page")
         else:
             return redirect("register")
+
 
 class Register(View):
     def get(self, request):
@@ -74,5 +94,5 @@ class Register(View):
                                      email=email,
                                      password=password,
                                      username=email)
-            # User.objects.create_user()
+
         return redirect("login")
