@@ -255,4 +255,50 @@ document.addEventListener("DOMContentLoaded", function () {
     if (form !== null) {
         new FormSteps(form);
     }
+
+});
+
+let button_step1 = document.querySelector("div[data-step='1'] button.next-step");
+let checkboxes = document.querySelectorAll("div[data-step='1'] .form-group--checkbox span.checkbox");
+let checked = [];
+
+
+button_step1.addEventListener("click", function () {
+    checked = [];
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].previousElementSibling["checked"] === true) {
+            checked.push(checkboxes[i].previousElementSibling["value"])
+        }
+    }
+
+});
+
+let button_step2 = document.querySelector("div[data-step='2'] button.next-step");
+let institutions = document.querySelectorAll("div[data-step='3'] div.form-group--checkbox");
+
+button_step2.addEventListener("click", function () {
+    for (let i = 0; i < institutions.length; i++) {
+        let institution_categories = [];
+        let categories = institutions[i].dataset["category"];
+
+        for (let i = 0; i < categories.length; i++) {
+            if (categories[i] !== " ") {
+                institution_categories.push(categories[i]);
+            }
+        }
+
+        let hide = true;
+        for (let i = 0; i < checked.length; i++) {
+            if (institution_categories.includes(checked[i])) {
+                hide = false;
+            }
+        }
+
+        if (hide === true) {
+            institutions[i].style.display = "none";
+        } else {
+            institutions[i].style.display = "block";
+
+        }
+    }
 });

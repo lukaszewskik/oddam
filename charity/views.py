@@ -38,12 +38,15 @@ class LogoutView(View):
 
 class AddDonation(View):
     def get(self, request):
-        ctx = {}
-        categories = Category.objects.all()
-        institutions = Institution.objects.all()
-        ctx['categories'] = categories
-        ctx['institutions'] = institutions
-        return render(request, "form.html", ctx)
+        if request.user.is_authenticated:
+            ctx = {}
+            categories = Category.objects.all()
+            institutions = Institution.objects.all()
+            ctx['categories'] = categories
+            ctx['institutions'] = institutions
+            return render(request, "form.html", ctx)
+        else:
+            return redirect('login')
 
     def post(self, request):
         bags = request.POST['bags']
@@ -55,8 +58,6 @@ class AddDonation(View):
         time = request.POST['time']
         comment = request.POST['more_info']
         institution = request.POST['organization']
-        print(institution)
-        print('elo')
         return redirect('add_donation')
 
 
