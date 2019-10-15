@@ -301,5 +301,4 @@ button_step2.addEventListener("click", function () {
 
         }
     }
-
 });
