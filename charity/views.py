@@ -49,15 +49,27 @@ class AddDonation(View):
             return redirect('login')
 
     def post(self, request):
-        bags = request.POST['bags']
-        address = request.POST['address']
-        city = request.POST['city']
-        postcode = request.POST['postcode']
-        phone = request.POST['phone']
-        pick_up_date = request.POST['data']
-        time = request.POST['time']
-        comment = request.POST['more_info']
-        institution = request.POST['organization']
+        bags = request.POST.get('bags')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        phone = request.POST.get('phone')
+        pick_up_date = request.POST.get('data')
+        time = request.POST.get('time')
+        comment = request.POST.get('more_info')
+        institution = request.POST.get('organization')
+
+        Donation.objects.create(quantity=bags,
+                                address=address,
+                                phone_number=phone,
+                                city=city,
+                                zip_code=postcode,
+                                pick_up_date=pick_up_date,
+                                pick_up_time=time,
+                                pick_up_comment=comment,
+                                institution_id=institution,
+                                user_id=request.user.id)
+
         return redirect('add_donation')
 
 

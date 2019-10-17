@@ -279,11 +279,11 @@ let institutions = document.querySelectorAll("div[data-step='3'] div.form-group-
 button_step2.addEventListener("click", function () {
     for (let i = 0; i < institutions.length; i++) {
         let institution_categories = [];
-        let categories = institutions[i].dataset["category"];
+        let institution_categories_string = institutions[i].dataset["category"];
 
-        for (let i = 0; i < categories.length; i++) {
-            if (categories[i] !== " ") {
-                institution_categories.push(categories[i]);
+        for (let i = 0; i < institution_categories_string.length; i++) {
+            if (institution_categories_string[i] !== " ") {
+                institution_categories.push(institution_categories_string[i]);
             }
         }
 
@@ -291,6 +291,9 @@ button_step2.addEventListener("click", function () {
         for (let i = 0; i < checked.length; i++) {
             if (institution_categories.includes(checked[i])) {
                 hide = false;
+            } else {
+                hide = true;
+                break
             }
         }
 
@@ -302,3 +305,40 @@ button_step2.addEventListener("click", function () {
         }
     }
 });
+
+let button_step4 = document.querySelector("div[data-step='4'] button.next-step");
+button_step4.addEventListener("click", function () {
+    let bags = document.getElementsByName("bags")[0];
+    let street = document.getElementsByName("address")[0];
+    let city = document.getElementsByName("city")[0];
+    let postcode = document.getElementsByName("postcode")[0];
+    let phone = document.getElementsByName("phone")[0];
+    let date = document.getElementsByName("data")[0];
+    let time = document.getElementsByName("time")[0];
+    let more_info = document.getElementsByName("more_info")[0];
+
+
+    for (let i = 0; i < institutions.length; i++) {
+        if (institutions[i].querySelector("input")["checked"] === true) {
+            var institution = institutions[i].querySelector(".title").textContent;
+        }
+    }
+
+
+    let bags_field = document.querySelector("div.summary div.form-section ul").firstElementChild;
+    let institution_field = bags_field.nextElementSibling;
+    bags_field.querySelector(".summary--text").textContent = bags.value + " worki darów";
+    institution_field.querySelector(".summary--text").textContent = "Dla organizacji " + institution;
+
+    let address = document.getElementById("address");
+    address.firstElementChild.textContent = street.value;
+    address.firstElementChild.nextElementSibling.textContent = city.value;
+    address.firstElementChild.nextElementSibling.nextElementSibling.textContent = postcode.value;
+    address.lastElementChild.textContent = phone.value;
+
+    let term = document.getElementById("term");
+    term.firstElementChild.textContent = date.value;
+    term.firstElementChild.nextElementSibling.textContent = time.value;
+    term.lastElementChild.textContent = more_info.value;
+});
+console.log(button_step4);
