@@ -58,6 +58,7 @@ class AddDonation(View):
         time = request.POST.get('time')
         comment = request.POST.get('more_info')
         institution = request.POST.get('organization')
+        user = request.user
 
         Donation.objects.create(quantity=bags,
                                 address=address,
@@ -68,10 +69,14 @@ class AddDonation(View):
                                 pick_up_time=time,
                                 pick_up_comment=comment,
                                 institution_id=institution,
-                                user_id=request.user.id)
+                                user_id=user.id)
 
-        return redirect('add_donation')
+        return redirect('thank_you')
 
+
+class DonationConfirmation(View):
+    def get(self, request):
+        return render(request, "form-confirmation.html")
 
 class Login(View):
     def get(self, request):
