@@ -16,15 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from charity.views import LandingPage, AddDonation, Login, Register, LogoutView, DonationConfirmation
+from charity.views import LandingPage, AddDonation, Login, Register, LogoutView, DonationConfirmation, Profile
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', LandingPage.as_view(), name="landing_page"),
-    path('form/', AddDonation.as_view(), name="add_donation"),
-    path('login/', Login.as_view(), name="login"),
-    path('register/', Register.as_view(), name="register"),
+    path('admin/', admin.site.urls, name='admin'),
+    path('', LandingPage.as_view(), name='landing_page'),
+    path('form/', AddDonation.as_view(), name='add_donation'),
+    path('login/', Login.as_view(), name='login'),
+    path('register/', Register.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name="logout"),
-    path('thankyou/', DonationConfirmation.as_view(), name="thank_you"),
+    path('thankyou/', DonationConfirmation.as_view(), name='thank_you'),
+    path('profile/', Profile.as_view(), name='profile')
 
 ]

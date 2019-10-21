@@ -49,6 +49,7 @@ class AddDonation(View):
             return redirect('login')
 
     def post(self, request):
+        categories = request.POST.getlist('categories')
         bags = request.POST.get('bags')
         address = request.POST.get('address')
         city = request.POST.get('city')
@@ -60,16 +61,18 @@ class AddDonation(View):
         institution = request.POST.get('organization')
         user = request.user
 
-        Donation.objects.create(quantity=bags,
-                                address=address,
-                                phone_number=phone,
-                                city=city,
-                                zip_code=postcode,
-                                pick_up_date=pick_up_date,
-                                pick_up_time=time,
-                                pick_up_comment=comment,
-                                institution_id=institution,
-                                user_id=user.id)
+        new_donation = Donation.objects.create(quantity=bags,
+                                               address=address,
+                                               phone_number=phone,
+                                               city=city,
+                                               zip_code=postcode,
+                                               pick_up_date=pick_up_date,
+                                               pick_up_time=time,
+                                               pick_up_comment=comment,
+                                               institution_id=institution,
+                                               user_id=user.id)
+        new_donation.categories.set(categories)
+
 
         return redirect('thank_you')
 
@@ -77,6 +80,7 @@ class AddDonation(View):
 class DonationConfirmation(View):
     def get(self, request):
         return render(request, "form-confirmation.html")
+
 
 class Login(View):
     def get(self, request):
@@ -114,3 +118,14 @@ class Register(View):
                                      username=email)
 
         return redirect("login")
+
+
+class Profile(View):
+    def get(self, request):
+        ctx = {}
+        donations = Donation.objects.filter(user_id=request.user.id).order_by('-pick_up_date')
+
+        ctx['user'] = request.user
+        ctx['donations'] = donations
+
+        return render(request, 'profile.html', ctx)
