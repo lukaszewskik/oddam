@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% block title %}
+    Przekaż dary
+{% endblock %}
 {% block header_open %}
     <header class="header--form-page">
 {% endblock %}
@@ -60,7 +62,6 @@
         <div class="form--steps-container">
             <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-            {#            <form action="form-confirmation.html" method="post">#}
             <form action="." method="post">
                 {% csrf_token %}
                 <!-- STEP 1: class .active is switching steps -->

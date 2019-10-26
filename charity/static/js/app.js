@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             // Form submit
-            // this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+            this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
         }
 
         /**
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
             this.$step.parentElement.hidden = this.currentStep >= 6;
 
-            // TODO: get data from inputs and show them in summary
+
         }
 
         /**
@@ -245,9 +245,9 @@ document.addEventListener("DOMContentLoaded", function () {
          * TODO: validation, send data to server
          */
         submit(e) {
-            e.preventDefault();
-            this.currentStep++;
-            this.updateForm();
+            // e.preventDefault();
+            // this.currentStep++;
+            // this.updateForm();
         }
     }
 
@@ -304,6 +304,28 @@ button_step2.addEventListener("click", function () {
 
         }
     }
+    let empty = true;
+    for (let i = 0; i < institutions.length; i++) {
+        if (institutions[i].style.display !== "none") {
+            empty = false;
+            break
+        }
+    }
+
+    if (empty === true) {
+        let newElement = document.createElement("div");
+        newElement.id = "message-empty";
+        newElement.classList.add("form-group", "form-group--checkbox");
+        newElement.textContent = "Brak instytucji spełniających kryteria";
+        let box = document.querySelector("div[data-step='3'] h3").nextElementSibling;
+        document.querySelector("div[data-step='3']").insertBefore(newElement, box);
+
+    } else {
+        if (document.getElementById("message-empty")) {
+            document.getElementById("message-empty").remove();
+        }
+
+    }
 });
 
 let button_step4 = document.querySelector("div[data-step='4'] button.next-step");
@@ -341,4 +363,3 @@ button_step4.addEventListener("click", function () {
     term.firstElementChild.nextElementSibling.textContent = time.value;
     term.lastElementChild.textContent = more_info.value;
 });
-console.log(button_step4);
