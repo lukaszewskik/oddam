@@ -23,7 +23,7 @@
                     <p> Dla organizacji <strong>{{ donation.institution }}</strong></p>
                     Dary w kategoriach: {{ donation.category_set.all }}
                     {% for category in donation.categories.all %}
-                        {{ category }},
+                        {{ category }}{% if not forloop.last %},{% endif %}
                     {% endfor %}<br>
                     Data odebrania: {{ donation.pick_up_date }}<br>
                 {% endfor %}

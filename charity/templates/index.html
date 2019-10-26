@@ -102,8 +102,10 @@
 
                         <div class="col">
                             <div class="text">
+
                                 {% for category in foundation.categories.all %}
-                                    {{ category.name }},
+                                    {{ category.name }}{% if not forloop.last %},{% endif %}
+
                                 {% endfor %}
                             </div>
                         </div>
@@ -138,7 +140,7 @@
                         <div class="col">
                             <div class="text">
                                 {% for category in organization.categories.all %}
-                                    {{ category.name }},
+                                    {{ category.name }}{% if not forloop.last %},{% endif %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -172,7 +174,7 @@
                         <div class="col">
                             <div class="text">
                                 {% for category in l.categories.all %}
-                                    {{ category.name }},
+                                    {{ category.name }}{% if not forloop.last %},{% endif %}
                                 {% endfor %}
                             </div>
                         </div>
