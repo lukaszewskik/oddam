@@ -1,3 +1,6 @@
+{#TODO: tytul strony#}
+{#TODO: przecinki w kategoriach#}
+{#TODO: przecinki w instytucjach#}
 {% load static %}
 <!DOCTYPE html>
 <html lang="pl">
@@ -9,7 +12,13 @@
     <link rel="stylesheet" href={% static "css/style.css" %}/>
 </head>
 <body>
-
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% block header_open %}
 {% endblock %}
 

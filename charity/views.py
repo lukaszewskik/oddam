@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -60,6 +61,7 @@ class AddDonation(View):
         comment = request.POST.get('more_info')
         institution = request.POST.get('organization')
         user = request.user
+        # TODO: sprobowac zrobic django formem
 
         new_donation = Donation.objects.create(quantity=bags,
                                                address=address,
@@ -72,7 +74,6 @@ class AddDonation(View):
                                                institution_id=institution,
                                                user_id=user.id)
         new_donation.categories.set(categories)
-
 
         return redirect('thank_you')
 
@@ -108,14 +109,17 @@ class Register(View):
         email = request.POST.get("email")
         password = request.POST.get("password")
         password2 = request.POST.get("password2")
-        print(name, surname)
+
         if password == password2:
-            # TODO: check if user exists
-            User.objects.create_user(first_name=name,
-                                     last_name=surname,
-                                     email=email,
-                                     password=password,
-                                     username=email)
+            if not User.objects.get(email=email):
+                User.objects.create_user(first_name=name,
+                                         last_name=surname,
+                                         email=email,
+                                         password=password,
+                                         username=email)
+            else:
+                messages.error(request, 'User with this email already exists.')
+                return redirect("register")
 
         return redirect("login")
 

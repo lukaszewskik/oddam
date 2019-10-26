@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block content %}
-    {#    <div class="slogan container container--90"><div class="slogan--item"><h1>{{ user.username }}</h1></div> </div>#}
     <h2>
         Email: {{ user.email }}<br>
         Imię i nazwisko: {{ user.get_full_name }}
@@ -16,23 +15,17 @@
     <section class="stats">
         <div class="container container--90">
             <div class="stats--item">
-
                 {% for donation in donations %}
                     <h3>{{ donation.quantity }} worków</h3>
-                    <p> dla organizacji {{ donation.institution }}</p>
+                    <p> Dla organizacji <strong>{{ donation.institution }}</strong></p>
                     Dary w kategoriach: {{ donation.category_set.all }}
                     {% for category in donation.categories.all %}
-                        {{ category }};
-                    {% endfor %}
-                    <br>
+                        {{ category }},
+                    {% endfor %}<br>
                     Data odebrania: {{ donation.pick_up_date }}<br>
                 {% endfor %}
             </div>
         </div>
     </section>
-
-
-    </h2>
-
 {% endblock %}
 
