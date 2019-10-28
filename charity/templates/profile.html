@@ -19,6 +19,7 @@
         <div class="container container--90">
             <div class="stats--item">
                 {% for donation in donations %}
+
                     <h3>{{ donation.quantity }} worków</h3>
                     <p> Dla organizacji <strong>{{ donation.institution }}</strong></p>
                     Dary w kategoriach: {{ donation.category_set.all }}
@@ -26,6 +27,16 @@
                         {{ category }}{% if not forloop.last %},{% endif %}
                     {% endfor %}<br>
                     Data odebrania: {{ donation.pick_up_date }}<br>
+                    {% if donation.is_taken %}<span style="color: red">ZARCHIWIZOWANO</span>
+                    {% else %}
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-archive" name="archive" type="submit" value="{{ donation.id }}"
+                                    style="position: relative; left: 25%; margin-top: 10px">Zarchiwizuj
+                            </button>
+                            {#                    TODO: do css#}
+                        </form>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

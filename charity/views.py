@@ -127,9 +127,17 @@ class Register(View):
 class Profile(View):
     def get(self, request):
         ctx = {}
-        donations = Donation.objects.filter(user_id=request.user.id).order_by('-pick_up_date')
+        donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken', '-pick_up_date')
 
         ctx['user'] = request.user
         ctx['donations'] = donations
 
         return render(request, 'profile.html', ctx)
+
+    def post(self, request):
+        if request.POST.get('archive'):
+            donation = Donation.objects.get(id=request.POST.get('archive'))
+            donation.is_taken = True
+            donation.save()
+            return redirect('profile')
+        # TODO: ujednolicic cudzyslowy
