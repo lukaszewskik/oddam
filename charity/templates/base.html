@@ -1,4 +1,6 @@
 {% load static %}
+{#TODO: gdzie ma byc load static, w kazdym czy tylko tu#}
+{#TODO: wszedzie action na {% url %} zamaist sztywno #}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -26,7 +28,7 @@
                 Witaj {{ user.first_name }}
                 <ul class="dropdown">
                     <li><a href="{% url 'profile' %}">Profil</a></li>
-                    <li><a href="#">Ustawienia</a></li>
+                    <li><a href="{% url 'edit' %}">Ustawienia</a></li>
                     {% if user.is_superuser %}
                         <li><a href="{% url 'admin' %}">Panel administracyjny</a></li>
                     {% endif %}

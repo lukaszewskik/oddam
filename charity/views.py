@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
@@ -141,3 +142,31 @@ class Profile(View):
             donation.save()
             return redirect('profile')
         # TODO: ujednolicic cudzyslowy
+
+
+class EditProfile(View):
+    def get(self, request):
+        ctx = {}
+        ctx['user'] = request.user
+
+        return render(request, 'profile-edit.html', ctx)
+
+    def post(self, request):
+        user = User.objects.get(id=request.user.id)
+
+        if user.check_password(request.POST['old-password']):
+            user.first_name = request.POST.get("name")
+            user.last_name = request.POST.get("surname")
+            user.email = request.POST.get("email")
+            user.username = request.POST.get("email")
+
+            if request.POST.get('password') and request.POST.get('password') == request.POST.get('password2'):
+                user.set_password(request.POST.get('password'))
+                update_session_auth_hash(request, user)
+        else:
+            messages.error(request, 'Hasło nieprawidłowe. Podaj hasło, żeby zapisać zmiany.')
+            return redirect('edit')
+
+        user.save()
+        messages.success(request, 'Zmiany zostały zapisane.')
+        return redirect('profile')
