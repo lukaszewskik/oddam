@@ -1,12 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from django.views import View
-
 from charity.models import Donation, Institution, Category
 
 
@@ -29,7 +25,7 @@ class LandingPage(View):
         ctx['organizations'] = organizations
         ctx['local'] = local
 
-        return render(request, "index.html", ctx)
+        return render(request, 'index.html', ctx)
 
 
 class LogoutView(View):
@@ -46,7 +42,7 @@ class AddDonation(View):
             institutions = Institution.objects.all()
             ctx['categories'] = categories
             ctx['institutions'] = institutions
-            return render(request, "form.html", ctx)
+            return render(request, 'form.html', ctx)
         else:
             return redirect('login')
 
@@ -62,7 +58,6 @@ class AddDonation(View):
         comment = request.POST.get('more_info')
         institution = request.POST.get('organization')
         user = request.user
-        # TODO: sprobowac zrobic django formem
 
         new_donation = Donation.objects.create(quantity=bags,
                                                address=address,
@@ -81,12 +76,12 @@ class AddDonation(View):
 
 class DonationConfirmation(View):
     def get(self, request):
-        return render(request, "form-confirmation.html")
+        return render(request, 'form-confirmation.html')
 
 
 class Login(View):
     def get(self, request):
-        return render(request, "login.html")
+        return render(request, 'login.html')
 
     def post(self, request):
         email = request.POST['email']
@@ -95,21 +90,21 @@ class Login(View):
 
         if user is not None:
             login(request, user)
-            return redirect("landing_page")
+            return redirect('landing_page')
         else:
-            return redirect("register")
+            return redirect('register')
 
 
 class Register(View):
     def get(self, request):
-        return render(request, "register.html")
+        return render(request, 'register.html')
 
     def post(self, request):
-        name = request.POST.get("name")
-        surname = request.POST.get("surname")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        password2 = request.POST.get("password2")
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
 
         if password == password2:
             if not User.objects.get(email=email):
@@ -120,9 +115,9 @@ class Register(View):
                                          username=email)
             else:
                 messages.error(request, 'User with this email already exists.')
-                return redirect("register")
+                return redirect('register')
 
-        return redirect("login")
+        return redirect('login')
 
 
 class Profile(View):
@@ -141,7 +136,6 @@ class Profile(View):
             donation.is_taken = True
             donation.save()
             return redirect('profile')
-        # TODO: ujednolicic cudzyslowy
 
 
 class EditProfile(View):
@@ -155,10 +149,10 @@ class EditProfile(View):
         user = User.objects.get(id=request.user.id)
 
         if user.check_password(request.POST['old-password']):
-            user.first_name = request.POST.get("name")
-            user.last_name = request.POST.get("surname")
-            user.email = request.POST.get("email")
-            user.username = request.POST.get("email")
+            user.first_name = request.POST.get('name')
+            user.last_name = request.POST.get('surname')
+            user.email = request.POST.get('email')
+            user.username = request.POST.get('email')
 
             if request.POST.get('password') and request.POST.get('password') == request.POST.get('password2'):
                 user.set_password(request.POST.get('password'))
