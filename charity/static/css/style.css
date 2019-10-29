@@ -1835,3 +1835,9 @@ footer .bottom-line--icons a img {
 .messages {
     color: red;
 }
+
+.btn-archive {
+    position: relative;
+    left: 25%;
+    margin-top: 10px
+}

@@ -31,10 +31,8 @@
                     {% else %}
                         <form action="." method="post">
                             {% csrf_token %}
-                            <button class="btn btn-archive" name="archive" type="submit" value="{{ donation.id }}"
-                                    style="position: relative; left: 25%; margin-top: 10px">Zarchiwizuj
+                            <button class="btn btn-archive" name="archive" type="submit" value="{{ donation.id }}">Zarchiwizuj
                             </button>
-                            {#                    TODO: do css#}
                         </form>
                     {% endif %}
                 {% endfor %}
