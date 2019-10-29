@@ -1,2 +1,4 @@
+__pycache__/
 local_settings.py
 portfolio/local_settings.py
+.idea
